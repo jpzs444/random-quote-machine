@@ -1,18 +1,19 @@
-import { useState, useEffect } from 'react'
-import { fetchQuotesData } from '../api/quotes_api'
+import { useEffect, useCallback } from 'react';
+import { fetchQuotesData } from '../api/quotes_api';
+import { useDispatch, useSelector } from 'react-redux';
+import { generate } from '../stores/store';
+import { Button } from '../components';
 
-// TODO: Try implementing Redux 
 // TODO: Add Bootstrap styles
 
 const QuoteBox = () => {
-  const [quoteText, setQuoteText] = useState('');
-  const [quoteAuthor, setQuoteAuthor] = useState('');
+  const dispatch = useDispatch();
+  const quoteText = useSelector((state) => state.quote.value.quoteText)
+  const quoteAuthor = useSelector((state) => state.quote.value.quoteAuthor)
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const result = await fetchQuotesData();
-
-      // Get a random quote
       const randomNumber = Math.floor(Math.random() * result.length);
       const quoteResult = result[randomNumber]
 
@@ -26,22 +27,20 @@ const QuoteBox = () => {
         }
       }
 
-      // Set text and author
-      setQuoteText(quoteResult.text)
-      setQuoteAuthor(quoteResult.author)
+      dispatch(generate({ quoteText: quoteResult.text, quoteAuthor: quoteResult.author }));
 
       console.log(quoteResult)
     } catch(error) {
       console.error(error);
     }
-  }
+  }, [dispatch])
 
   // Fetch API data on first load
   useEffect(() => {
     fetchData();
-  }, [])
+  }, [fetchData])
 
-  const handleOnClick = () => {
+  const handleOnButtonClick = () => {
     fetchData();
   }
 
@@ -56,13 +55,7 @@ const QuoteBox = () => {
         >
           Twitter
         </a>
-        <button 
-          id="new-quote" 
-          type="button"
-          onClick={handleOnClick}
-        >
-          New Quote
-        </button>
+        <Button onButtonClick={handleOnButtonClick}/>
       </div>
     </div>
   )
