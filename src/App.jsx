@@ -4,7 +4,7 @@ import { store } from './stores/store';
 
 const App = () => {
   return (
-    <div>
+    <div className='app-div container d-flex align-items-center'>
       <Provider store={store}>
         <QuoteBox /> 
       </Provider>

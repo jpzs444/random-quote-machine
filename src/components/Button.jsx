@@ -8,6 +8,7 @@ const Button = ({ onButtonClick }) => {
       id="new-quote" 
       type="button"
       onClick={handleOnClick}
+      className="btn btn-dark rounded-pill btn-sm"
     >
       New Quote
     </button>

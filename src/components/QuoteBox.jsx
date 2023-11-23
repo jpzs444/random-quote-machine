@@ -3,6 +3,7 @@ import { fetchQuotesData } from '../api/quotes_api';
 import { useDispatch, useSelector } from 'react-redux';
 import { generate } from '../stores/store';
 import { Button } from '../components';
+import { quotationMark, twitter } from '../assets'
 
 // TODO: Add Bootstrap styles
 
@@ -45,17 +46,27 @@ const QuoteBox = () => {
   }
 
   return (
-    <div id="quote-box">
-      <h1 id="text">{quoteText}</h1>
-      <p id="author">{quoteAuthor}</p>
-      <div>
-        <a 
-          id="tweet-quote" 
-          href={`https://www.twitter.com/intent/tweet?hashtags=quotes&text="${quoteText}"%20—${quoteAuthor}`}
-        >
-          Twitter
-        </a>
-        <Button onButtonClick={handleOnButtonClick}/>
+    <div className='container d-flex justify-content-center align-items-center'>
+      <div id="quote-box" className="card p-2 position-relative shadow-sm">
+        <div className="card-body">
+          <div className="card-text text-focus-in" key={quoteText}>
+            <h1 id="text" className='fs-2 position-relative z-2'>{quoteText}</h1>
+            <p id="author" className='pt-3'>— {quoteAuthor}</p>
+          </div>
+          <hr/>
+          <div className='d-flex justify-content-between'>
+            <a 
+              id="tweet-quote" 
+              href={`https://www.twitter.com/intent/tweet?hashtags=quotes&text="${quoteText}"%20—${quoteAuthor}`}
+            >
+              <img src={twitter} alt="tweet-quote"
+              width={32}
+              className="twitter-img" />
+            </a>
+            <Button onButtonClick={handleOnButtonClick}/>
+          </div>
+        </div>
+        <img src={quotationMark} alt="quotation-mark" width={100} className="quotation-mark-img position-absolute z-0"/>
       </div>
     </div>
   )
